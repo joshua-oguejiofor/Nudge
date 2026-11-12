@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set auth_page = true %}
+{% block title %}New password{% endblock %}
+
+{% block auth_content %}
+<h1 class="auth-title">Set a new password</h1>
+<p class="auth-subtitle">Choose a password you'll remember.</p>
+
+<form method="post" action="{{ url_for('new_details') }}">
+  <input class="input" type="password" name="password" placeholder="New password" required autofocus>
+  <input class="submit" type="submit" value="Save password">
+</form>
+
+<div class="auth-links">
+  <a href="{{ url_for('login') }}">&larr; Back to login</a>
+</div>
+{% endblock %}

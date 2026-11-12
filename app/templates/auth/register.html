@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set auth_page = true %}
+{% block title %}Create account{% endblock %}
+
+{% block auth_content %}
+<h1 class="auth-title">Create account</h1>
+<p class="auth-subtitle">Sign up to start organising your day.</p>
+
+<form method="post" action="{{ url_for('register') }}">
+  <input class="input" type="email" name="email" placeholder="Email" required autofocus>
+  <input class="input" type="text" name="name" placeholder="Name" required>
+  <input class="input" type="password" name="password" placeholder="Password" required>
+  <input class="submit" type="submit" value="Create">
+</form>
+
+<div class="auth-links">
+  <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+</div>
+{% endblock %}

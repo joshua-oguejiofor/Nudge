@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h1 id="txt">Search Results</h1>
+
+<section class="list-section">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>S/N</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Options</th>
+          <th>Done</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for list in lst %}
+        <tr class="{% if list.completed %}done{% endif %}">
+          <td>{{ loop.index }}</td>
+          <td>{{ list.title }}</td>
+          <td>{{ list.description }}</td>
+          <td>
+            <a class="row-link" href="{{ url_for('update', id=list.id) }}">Update</a>
+            <a class="row-link row-link-danger" href="{{ url_for('delete', id=list.id) }}" onclick="return confirm('Delete this task?')">Delete</a>
+          </td>
+          <td>
+            <form action="{{ url_for('toggle_todo', id=list.id) }}" method="post">
+              <input type="checkbox" onchange="this.form.submit()" {% if list.completed %}checked{% endif %}>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="empty">No matching tasks found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="back-link"><a href="{{ url_for('home') }}">&larr; Back to home</a></p>
+</section>
+{% endblock %}

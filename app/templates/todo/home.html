@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 id="txt">Hello 👋<br>Add your to-do list to help you navigate your day 😊</h1>
+
+<div class="container">
+  <form method="post" action="{{ url_for('home') }}">
+    <label for="title">Title</label>
+    <input class="input" id="title" type="text" name="title" placeholder="Title" required>
+
+    <label for="description">Description</label>
+    <textarea class="input" name="description" id="description" placeholder="Description" rows="5" required></textarea>
+
+    <label for="priority">Task Priority</label>
+    <select name="priority" id="priority" class="input">
+      {% for p in priority %}
+        <option value="{{ p.value }}">{{ p.name.title() }}</option>
+      {% endfor %}
+    </select>
+
+    <input class="submit" type="submit" value="Create">
+  </form>
+</div>
+
+<section class="list-section">
+  <h2>LIST</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>S/N</th>
+          <th>Title</th>
+          <th>Priority</th>
+          <th>Description</th>
+          <th>Options</th>
+          <th>Done</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for list in lst %}
+        <tr class="{% if list.completed %}done{% endif %}">
+          <td>{{ loop.index }}</td>
+          <td>{{ list.title }}</td>
+          <td>{{ list.priority }}</td>
+          <td><a class="row-link" href="{{ url_for('view', id=list.id) }}">Full-view</a></td>
+          <td>
+            <a class="row-link" href="{{ url_for('update', id=list.id) }}">Update</a>
+            <a class="row-link row-link-danger" href="{{ url_for('delete', id=list.id) }}" onclick="return confirm('Delete this task?')">Delete</a>
+          </td>
+          <td>
+            <form action="{{ url_for('toggle_todo', id=list.id) }}" method="post">
+              <input type="checkbox" onchange="this.form.submit()" {% if list.completed %}checked{% endif %}>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="empty">No tasks yet. Add your first one above!</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

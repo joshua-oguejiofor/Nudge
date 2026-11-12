@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %} Nudge {% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% if auth_page %}auth-body{% endif %}">
+
+  {# Navbar: hidden on login / register / reset pages (they set auth_page) #}
+  {% if not auth_page %}
+  <nav>
+    <div class="logo">📝 Nudge</div>
+
+    <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <ul class="nav-links" id="navLinks">
+      {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li>
+          <form id="search" method="post" action="{{ url_for('search') }}">
+            <input type="text" name="search" placeholder="Search" required>
+            <input class="search-btn" type="submit" value="Search">
+          </form>
+        </li>
+        <li><a class="nav-logout" href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Sign up</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-container">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% if auth_page %}
+    <main class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-brand">📝 Nudge</div>
+        {% block auth_content %}{% endblock %}
+      </div>
+    </main>
+  {% else %}
+    {% block content %}{% endblock %}
+  {% endif %}
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

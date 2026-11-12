@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Update{% endblock %}
+
+{% block content %}
+<h1 id="txt">Update task</h1>
+
+<div class="container">
+  <form action="{{ url_for('update', id=lst.id) }}" method="post">
+    <label for="title">Title</label>
+    <input class="input" id="title" type="text" placeholder="Title" name="title" value="{{ lst.title }}" required>
+
+    <label for="description">Description</label>
+    <textarea class="input" id="description" name="description" placeholder="Description" rows="5" required>{{ lst.description }}</textarea>
+
+    <label for="priority">Task Priority</label>
+    <select name="priority" id="priority" class="input" required>
+      {% for p in priority %}
+        <option value="{{ p.value }}" {% if p.value == lst.priority.value %}selected{% endif %}>{{ p.name.title() }}</option>
+      {% endfor %}
+    </select>
+
+    <input class="submit" type="submit" value="Update">
+    <a class="cancel-link" href="{{ url_for('home') }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

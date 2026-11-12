@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Hi, welcome {{ current_user.username }} 👋</h1>
+  <p class="auth-subtitle">You're logged in.</p>
+  <p>
+    <a class="link-btn" href="{{ url_for('home') }}">Go to my to-do list</a>
+    <a class="link-btn link-btn-light" href="{{ url_for('message') }}">Message</a>
+    <a class="link-btn link-btn-danger" href="{{ url_for('logout') }}">Logout</a>
+  </p>
+</div>
+{% endblock %}

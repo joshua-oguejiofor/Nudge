@@ -1,0 +1,10 @@
+__pycache__
+.venv
+.env
+celerybeat-schedule
+instance/
+to_read.txt
+celery_broker.sqlite3
+celery_results.sqlite3
+note.txt
+.pyc
